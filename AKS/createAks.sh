@@ -1,21 +1,28 @@
-$mrg="aksdemo"
-$cluster="akscluster"
+# Set variables
+mrg="aksdemo"
+cluster="akscluster"
 
-az group create -l australiaeast -n $mrg
+# Create resource group
+az group create -l australiaeast -n mrg
 
-az aks create -g $mrg /
--n $cluster /
---node-count 1 /
---generate-ssh-keys /
+# Create cluster
+az aks create -g mrg \
+-n cluster \
+--node-count 1 \
+--generate-ssh-keys \
 --enable-addons monitoring
 
-az aks get-credentials /
--g $mrg /
--n $cluster
+# Create credentials
+az aks get-credentials \
+-g mrg \
+-n cluster
 
+# Get cluster nodes
 kubectl get nodes
 
+# Apply application
 kubectl apply -f azure-vote.yaml
 
+# Wait for deployment
 kubectl get service azure-vote-front /
 --watch
